@@ -32,8 +32,6 @@ class DVrouter(Router):
             
 
     def handle_new_link(self, port, endpoint, cost):
-        """Handle new link."""
-
         self.neighbors[endpoint] = (cost, port)
         self.neighbors_vector.setdefault(endpoint, {})  
         updated = self.recompute_route()
@@ -42,8 +40,6 @@ class DVrouter(Router):
         
 
     def handle_remove_link(self, port):
-        """Handle removed link."""
-
         remove_neighbor = None
         for neighbor, (_, neighbor_port) in self.neighbors.items():
             if neighbor_port == port:
@@ -60,7 +56,6 @@ class DVrouter(Router):
         
 
     def handle_time(self, time_ms):
-        """Handle current time."""
         if time_ms - self.last_time >= self.heartbeat_time:
             self.last_time = time_ms
 
@@ -100,5 +95,4 @@ class DVrouter(Router):
             self.send(port, packet)
 
     def __repr__(self):
-        """Representation for debugging in the network visualizer."""    
         return f"DVrouter(addr={self.addr}, table={self.routing_table}, neighbors={self.neighbors})"
