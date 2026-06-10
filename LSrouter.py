@@ -4,7 +4,14 @@ import json
 import networkx as nx
 
 class LSrouter(Router):
-    """Link state routing protocol implementation."""
+    """
+    Giao thức định tuyến Link State (Trạng thái liên kết).
+    Luồng hoạt động chính:
+    1. Khám phá lân cận: Lưu chi phí liên kết trực tiếp với các node xung quanh vào CSDL của router (LSDB).
+    2. Flooding (Lũ lụt): Phát tán (broadcast) LSDB ra toàn mạng mỗi khi có sự thay đổi, kết hợp sequence number để luôn dùng bản ghi mới nhất.
+    3. Trạm lưu trữ toàn mạng: Thu thập bản tin link-state từ tất cả router khác để vẽ lại bức tranh tổng thể (Đồ thị Graph).
+    4. Cập nhật đường đi (Dijkstra): Chạy thuật toán Dijkstra trên Đồ thị vừa tạo ra để tính đường đi ngắn nhất đến khắp các điểm mạng, từ đó cập nhật Bảng chuyển tiếp (Forwarding Table).
+    """
 
     def __init__(self, addr, heartbeat_time):
         super().__init__(addr)  # Khởi tạo lớp cha RouterRouter
